@@ -4,9 +4,84 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShopToy"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Name="Root"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <CollectionViewSource x:Key="" Source="{Binding}" />
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="53*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Магазин игрушек" FontSize="16"/>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
+                <TextBlock Text="Поиск" Margin="0 0 10 0"/>
+                <TextBox x:Name="SeachText" Width="150"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
+                <TextBlock Text="Сортировка"  Margin="0 0 10 0"/>
+                <ComboBox x:Name="SortListToys">
+                    <ComboBoxItem Content="Ничего" Tag="Any" IsSelected="True"/>
+                    <ComboBoxItem Content="Убывание" Tag="CostDecreasing"/>
+                    <ComboBoxItem Content="Возростоание" Tag="CostIncreasing"/>
+
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
+                <TextBlock Text="Фильтрация"  Margin="0 0 10 0"/>
+                <ComboBox x:Name="FirterListToys"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
+                <TextBlock Text="Код" Margin="0 0 10 0"/>
+                <TextBox x:Name="AdminCode" Margin="0 0 10 0" Width="100"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ListView x:Name="ListToys" ItemsSource="{Binding ToysSee, ElementName=Root}" Grid.Row="2" Margin="10 2 10 10">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Название">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap"/> 
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Описание">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Вес" DisplayMemberBinding="{Binding Path=Weight}"/>
+                        <GridViewColumn Header="Высота" DisplayMemberBinding="{Binding Path=Height}"/>
+                        <GridViewColumn Header="Ширина" DisplayMemberBinding="{Binding Path=Width}"/>
+                        <GridViewColumn Header="Стоимость" DisplayMemberBinding="{Binding Path=Cost}"/>
+                        <GridViewColumn Header="В наличии" DisplayMemberBinding="{Binding Path=IsAvailable}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button x:Name="AdminPanel" Content="Зайти в панель админа" Padding="4" Margin="30 0 10 0" Click="ButtonClickCodeAdmin"/>
+            <Button x:Name="KlientPanel" Visibility="Collapsed" Content="Зайти как клиент" Padding="4" Margin="30 0 10 0" Click="ButtonClickCodeKlient"/>
+            <Button x:Name="AddToy" Visibility="Hidden" Content="Добавить" Click="Button_Click" Padding="4" Margin="0 0 10 0"/>
+            <Button x:Name="EditToy" Visibility="Hidden" Content="Редактировать" Click="Button_Click_1" Padding="4" Margin="0 0 10 0"/>
+            <Button x:Name="DeleteToy" Visibility="Hidden" Content="Удалить" Click="Button_Click_2" Padding="4" Margin=" 0 0 10 0"/>
+        </StackPanel>
     </Grid>
 </Window>

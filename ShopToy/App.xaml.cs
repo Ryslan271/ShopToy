@@ -13,5 +13,6 @@ namespace ShopToy
     /// </summary>
     public partial class App : Application
     {
+        public static ShopExample1Entities db = new ShopExample1Entities();
     }
 }

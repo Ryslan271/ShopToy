@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ShopExample1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Orderr">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataOrder" Type="date" Nullable="false" />
+          <Property Name="TotalCost" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Toy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Weight" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="Height" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Width" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GeneralImage" Type="varbinary(max)" />
+          <Property Name="IsAvailable" Type="bit" />
+        </EntityType>
+        <EntityType Name="ToyOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ToyId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="int" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ToyOrder_Orderr">
+          <End Role="Orderr" Type="Self.Orderr" Multiplicity="1" />
+          <End Role="ToyOrder" Type="Self.ToyOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orderr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ToyOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ToyOrder_Toy">
+          <End Role="Toy" Type="Self.Toy" Multiplicity="1" />
+          <End Role="ToyOrder" Type="Self.ToyOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Toy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ToyOrder">
+              <PropertyRef Name="ToyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ShopExample1ModelContainer">
+          <EntitySet Name="Orderr" EntityType="Self.Orderr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Toy" EntityType="Self.Toy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ToyOrder" EntityType="Self.ToyOrder" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ToyOrder_Orderr" Association="Self.FK_ToyOrder_Orderr">
+            <End Role="Orderr" EntitySet="Orderr" />
+            <End Role="ToyOrder" EntitySet="ToyOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ToyOrder_Toy" Association="Self.FK_ToyOrder_Toy">
+            <End Role="Toy" EntitySet="Toy" />
+            <End Role="ToyOrder" EntitySet="ToyOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShopExample1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Orderr">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataOrder" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalCost" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="ToyOrder" Relationship="Self.FK_ToyOrder_Orderr" FromRole="Orderr" ToRole="ToyOrder" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Toy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Weight" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="Height" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GeneralImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <NavigationProperty Name="ToyOrder" Relationship="Self.FK_ToyOrder_Toy" FromRole="Toy" ToRole="ToyOrder" />
+        </EntityType>
+        <EntityType Name="ToyOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ToyId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Orderr" Relationship="Self.FK_ToyOrder_Orderr" FromRole="ToyOrder" ToRole="Orderr" />
+          <NavigationProperty Name="Toy" Relationship="Self.FK_ToyOrder_Toy" FromRole="ToyOrder" ToRole="Toy" />
+        </EntityType>
+        <Association Name="FK_ToyOrder_Orderr">
+          <End Role="Orderr" Type="Self.Orderr" Multiplicity="1" />
+          <End Role="ToyOrder" Type="Self.ToyOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orderr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ToyOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ToyOrder_Toy">
+          <End Role="Toy" Type="Self.Toy" Multiplicity="1" />
+          <End Role="ToyOrder" Type="Self.ToyOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Toy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ToyOrder">
+              <PropertyRef Name="ToyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ShopExample1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Orderr" EntityType="Self.Orderr" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Toy" EntityType="Self.Toy" />
+          <EntitySet Name="ToyOrder" EntityType="Self.ToyOrder" />
+          <AssociationSet Name="FK_ToyOrder_Orderr" Association="Self.FK_ToyOrder_Orderr">
+            <End Role="Orderr" EntitySet="Orderr" />
+            <End Role="ToyOrder" EntitySet="ToyOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ToyOrder_Toy" Association="Self.FK_ToyOrder_Toy">
+            <End Role="Toy" EntitySet="Toy" />
+            <End Role="ToyOrder" EntitySet="ToyOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ShopExample1ModelContainer" CdmEntityContainer="ShopExample1Entities">
+          <EntitySetMapping Name="Orderr">
+            <EntityTypeMapping TypeName="ShopExample1Model.Orderr">
+              <MappingFragment StoreEntitySet="Orderr">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DataOrder" ColumnName="DataOrder" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ShopExample1Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Toy">
+            <EntityTypeMapping TypeName="ShopExample1Model.Toy">
+              <MappingFragment StoreEntitySet="Toy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="GeneralImage" ColumnName="GeneralImage" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ToyOrder">
+            <EntityTypeMapping TypeName="ShopExample1Model.ToyOrder">
+              <MappingFragment StoreEntitySet="ToyOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ToyId" ColumnName="ToyId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
